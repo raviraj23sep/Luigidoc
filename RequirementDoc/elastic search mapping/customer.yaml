@@ -1,0 +1,39 @@
+{
+  "Customer": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "customerName": {
+        "type": "string"
+      },
+      "city:": {
+        "type": "string"
+      },
+      "address:": {
+        "type": "string"
+      },
+      "contactPhone:": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "email:": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "confirmationCode:": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "password:": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "timeJoined:": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss"
+      }
+    }
+  }
+}
