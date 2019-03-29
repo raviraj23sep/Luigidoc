@@ -87,21 +87,21 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-      customer_name:
+      customerName:
         type: "string"
       city:
         type: "string"
       address:
         type: "string"
-      contact_phone:
+      contactPhone:
         type: "string"
       email:
         type: "boolean"
-      confirmation_code:
+      confirmationCode:
         type: "string"
       password:
         type: "string"
-      time_joined:
+      timeJoined:
         type: "string"
         format: "date-time"
   Error:
