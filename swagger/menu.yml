@@ -82,7 +82,7 @@ paths:
             $ref: '#/definitions/Error'
 definitions:
   Menu:
-    type: "object"
+    type: object
     properties:
       id:
         type: "integer"
@@ -98,8 +98,12 @@ definitions:
       recipe:
         type: "boolean"
       price:
-        type: number
-        multipleOf: 0.01
+        type: "number"
+        format: "float"
+      relatedTags:
+        type: "array"
+        items:
+          type: "string"
       active:
         type: boolean
   Error:
