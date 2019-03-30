@@ -87,13 +87,25 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-      address:
+      name:
         type: "string"
+      address:
+        $ref: '#/definitions/Address'  
+  Address:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      shopNo:
+        type: "string"
+      sector:
+        type: "string"  
       city:
         type: "string"
       timeJoined:
         type: "string"
-        format: "date-time"
+        format: "date-time"      
   Error:
     type: object
     properties:
