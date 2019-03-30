@@ -80,6 +80,38 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
+  /orderStatus:
+    put:
+      tags:
+      - "inOrder"
+      summary: "Add a new order status"
+      description: "Add a new order status"
+      operationId: "addNewOrderStatus"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Add a new order Order status"
+        required: true
+        schema:
+          $ref: "#/definitions/OrderStatus"
+      responses:    
+        "200":
+          description: successful operation
+          schema:
+              $ref: "#/definitions/OrderStatus"
+        "404":
+          description: Placed order not found
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'    
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'           
+            
 definitions:
   InOrder:
     type: "object"
@@ -146,7 +178,22 @@ definitions:
       InOrderItems:
         type: array
         items:
-          $ref: '#/definitions/InOrder' 
+          $ref: '#/definitions/InOrder'
+  OrderStatus:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      placedOrderId:
+        type: "string"
+      statusCatalog:
+        type: "string"
+      ts:
+        type: "string"
+        format: "date-time"
+      active:
+        type: boolean        
   Error:
     type: object
     properties:
