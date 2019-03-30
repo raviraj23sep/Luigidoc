@@ -1,0 +1,258 @@
+swagger: '2.0'
+info:
+  description: >
+    Project: Mint
+
+
+    Module: Copy Adjust Junction Rating Business Service This is the API
+    Specification for Copy Adjust Rating Ratings  Business Service.
+
+
+    [Requirements(https://newwiki.channel4.com/display/PM/1.1003+Manually+Forecast+Junction+Ratings+with+Calculations)  
+  version: 1.0.0
+  title: Copy Adjust Junction Rating Business Service
+  contact:
+    name: kaushal-k@hcl.com
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /programmes:
+    get:
+      summary: 'This end point returns list of programmes based on search criteria. '
+      tags:
+        - Get programme List
+      description: >-
+        This end point returns list of programmes based on search criteria. This
+        end point calls Scheduled Episode Business Service GET
+        /scheduledepisodes to retreive programme list.
+          NFR - Mint-NFR-2.81-2
+      parameters:
+        - in: query
+          name: txLevel
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+        - in: query
+          name: channel
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+        - in: query
+          name: selectedDays
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+        - in: query
+          name: excludedDates
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+        - in: query
+          name: dateFrom
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+        - in: query
+          name: dateTo
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+        - in: query
+          name: timeFrom
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+        - in: query
+          name: timeTo
+          description: Parameters for getting list of programme.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: programmes returned successfully.
+          schema:
+            $ref: '#/definitions/Programmes'
+        '400':
+          description: Parameter do not match the expected format.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Unable to process request.
+          schema:
+            $ref: '#/definitions/Error'
+  /copyadjustratings:
+    post:
+      summary: >-
+        This method will call channel domain service for getting tx level data
+        from channels doamin service. After that this will put tx level details
+        in CopyAdjustRatings.Q 
+      tags:
+        - Copy Adjust Junction Ratings
+      description: >
+        This method will call channel domain service for getting tx level data
+        from channels doamin service. After that this will put tx level details
+        in CopyAdjustRatings.Q.
+          NFR - Mint-NFR-2.81-1
+      parameters:
+        - in: body
+          name: parameters
+          description: source and target parameters for manual copy adjustment
+          required: true
+          schema:
+            $ref: '#/definitions/FprParameters'
+      responses:
+        '200':
+          description: Copy/Adjust rating executed successfully.
+        '400':
+          description: Parameter do not match the expected format.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Unable to process request.
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Programmes:
+    type: array
+    items:
+      $ref: '#/definitions/Programme'
+  Programme:
+    type: object
+    properties:
+      programmeId:
+        type: integer
+      programmeName:
+        type: string
+      episodeNo:
+        type: integer
+      contractNo:
+        type: string
+      programmeDate:
+        type: string
+        format: date
+      programmeTime:
+        type: string
+  FprParameters:
+    type: object
+    properties:
+      sourceParameters:
+        $ref: '#/definitions/SourceParameter'
+      targetParameters:
+        $ref: '#/definitions/TargetParameter'
+      sourceProgramme:
+        $ref: '#/definitions/SourceProgramme'
+      copyMethod:
+        $ref: '#/definitions/CopyMethod'
+      ratingAdjustment:
+        $ref: '#/definitions/RatingAdjustment'
+  SourceParameter:
+    $ref: '#/definitions/Parameter'
+  TargetParameter:
+    $ref: '#/definitions/Parameter'
+  Parameter:
+    type: object
+    properties:
+      countryId:
+        type: integer
+        format: int64
+      txlevelId:
+        type: integer
+        format: int64
+      channelId:
+        type: integer
+        format: int64
+      junctionPart:
+        type: string
+      daysOfWeek:
+        type: string
+      selectedDays:
+        type: array
+        items:
+          properties:
+            day:
+              type: string
+      excludededDates:
+        type: array
+        items:
+          properties:
+            date:
+              type: string
+              format: date
+      dateFrom:
+        type: string
+        format: date
+      dateTo:
+        type: string
+        format: date
+      timeFrom:
+        type: string
+      timeTo:
+        type: string
+  SourceProgramme:
+    type: object
+    properties:
+      isInclude:
+        type: boolean
+      isExclude:
+        type: boolean
+      programmes:
+        $ref: '#/definitions/Programmes'
+  CopyMethod:
+    type: object
+    properties:
+      isDirectCopy:
+        type: boolean
+      isAveragingMethod:
+        type: boolean
+      ignoreMachingBreakType:
+        type: boolean
+      ignoreDayAlignment:
+        type: boolean
+      maxTimeDifference:
+        type: integer
+      averagingMethodbyType:
+        type: boolean
+      copyRating:
+        type: boolean
+      copyImpact:
+        type: boolean
+  RatingAdjustment:
+    type: object
+    properties:
+      countryId:
+        type: integer
+        format: int64
+      isAllAudience:
+        type: boolean
+      isLinkHouseWives:
+        type: boolean
+      audienceRatings:
+        type: array
+        items:
+          $ref: '#/definitions/AudienceRating'
+  AudienceRating:
+    type: object
+    properties:
+      audienceId:
+        type: integer
+        format: int64
+      requiredTvr:
+        type: number
+        format: float
+      percentage:
+        type: number
+        format: float
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

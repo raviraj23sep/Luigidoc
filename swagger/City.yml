@@ -1,0 +1,105 @@
+swagger: "2.0"
+info:
+  description: "Luni Customer Api"
+  version: "1.0.0"
+  title: "Luni Api"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "raviraj23sep@yahoo.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.swagger.io"
+basePath: "/luni"
+schemes:
+- "https"
+- "http"
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /city:
+    post:
+      tags:
+      - "city"
+      summary: "Add a new city to index"
+      description: ""
+      operationId: "addCity"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Add new city to the system"
+        required: true
+        schema:
+          $ref: "#/definitions/City"
+      responses:    
+        "200":
+          description: successful operation
+          schema:
+              $ref: "#/definitions/City"
+        "404":
+          description: Menu Category data not found
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'    
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+      - "pet"
+      summary: "Update a new menu category to the app"
+      description: ""
+      operationId: "updateMenuCategory"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Menu Category object that needs to be updated to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/City"
+      responses:    
+        "200":
+          description: successful operation
+          schema:
+              $ref: "#/definitions/City"
+        "404":
+          description: Could not find Customer with the providedID 
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Could not update 
+          schema:
+            $ref: '#/definitions/Error'     
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  City:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      cityName:
+        type: "string"
+      zipCode:
+        type: "string"  
+      active:
+        type: boolean
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      field:
+        type: string      
